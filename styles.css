@@ -45,4 +45,51 @@ button {
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
-    margin: 
+    margin: 5px;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Tabs */
+#tabs {
+    margin-top: 20px;
+}
+
+#tabs button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 5px;
+}
+
+#tabs button:hover {
+    background-color: #0056b3;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Action Feedback */
+#actionFeedback {
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+#actionFeedback p {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+/* Input Fields */
+input[type="number"] {
+    padding: 5px;
+    font-size: 16px;
+    margin: 5px;
+    width: 100px;
+}
+
