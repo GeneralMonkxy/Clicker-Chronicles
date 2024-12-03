@@ -1,69 +1,78 @@
-let clicks = 0;
-let points = 0;
-let multiplier = 1;
-let pointUpgradeCost = 100;
-let prestigeClicks = 0;
-let prestigeMultiplier = 1;
-let pointUpgradeLevel = 0;
+// Game variables
+let totalPoints = 0;  // Total points
+let pointsPerClick = 1;  // Points gained per click
+let pointsPerSecond = 0;  // Points gained per second (auto clicker)
+let prestigeMultiplier = 0;  // Multiplier after prestige
+let pointsUpgradeCost = 100;  // Cost of each point upgrade
+let pointUpgradeLevel = 1;  // Initial point upgrade level
 
-const clickButton = document.getElementById("click-button");
-const prestigeButton = document.getElementById("prestige-button");
-const pointUpgradeButton = document.getElementById("point-upgrade-button");
-const clicksDisplay = document.getElementById("clicks");
-const pointsDisplay = document.getElementById("points");
-const multiplierDisplay = document.getElementById("multiplier");
-const pointUpgradeCostDisplay = document.getElementById("point-upgrade-cost");
-const prestigeCostDisplay = document.getElementById("prestige-cost");
+// Update the display
+function updateDisplay() {
+    document.getElementById("totalPoints").innerText = `Total Points: ${totalPoints}`;
+    document.getElementById("pointsPerClick").innerText = `Points per Click: ${pointsPerClick}`;
+    document.getElementById("pointsPerSecond").innerText = `Points per Second: ${pointsPerSecond}`;
+    document.getElementById("prestigeMultiplier").innerText = `Prestige Multiplier: ${prestigeMultiplier}x`;
+    document.getElementById("upgradeCost").innerText = `Point Upgrade Cost: ${pointsUpgradeCost}`;
+}
 
-clickButton.addEventListener("click", () => {
-    // Increase clicks by 1 * multiplier
-    clicks += multiplier;
-    points += multiplier;
+// Add points when the player clicks
+function addPoints() {
+    totalPoints += pointsPerClick;
     updateDisplay();
-});
+}
 
-prestigeButton.addEventListener("click", () => {
-    if (clicks >= 1000) {
-        prestige();
-    } else {
-        alert("You need at least 1000 clicks to prestige!");
-    }
-});
+// Prestige function
+function prestige() {
+    // Calculate the new prestige multiplier based on points
+    prestigeMultiplier = Math.floor(totalPoints / 1000);  // 1x per 1000 points
+    totalPoints = 0;  // Reset points after prestige
+    pointsPerClick = 1;  // Reset points per click after prestige
+    pointsPerSecond = 0;  // Reset points per second after prestige
+    updateDisplay();
+}
 
-pointUpgradeButton.addEventListener("click", () => {
-    if (points >= pointUpgradeCost) {
-        points -= pointUpgradeCost;
-        pointUpgradeLevel++;
-        multiplier += 1; // Increase multiplier for each point upgrade
-        pointUpgradeCost = Math.floor(pointUpgradeCost * 1.5); // Increase cost for the next upgrade
+// Point upgrade function
+function buyPointUpgrade() {
+    if (totalPoints >= pointsUpgradeCost) {
+        totalPoints -= pointsUpgradeCost;
+        pointsPerClick += pointUpgradeLevel;
+        pointsUpgradeCost *= 1.5;  // Increase the upgrade cost for the next level
         updateDisplay();
     } else {
-        alert("Not enough points for Point Upgrade!");
+        alert("Not enough points for this upgrade!");
     }
-});
+}
 
-function prestige() {
-    prestigeClicks = clicks;
-    clicks = 0;
-    points = 0;
-    multiplier = 1;
-    pointUpgradeLevel = 0;
-    pointUpgradeCost = 100;
-    prestigeMultiplier = Math.floor(prestigeClicks / 1000);
-    if (prestigeMultiplier < 1) prestigeMultiplier = 1; // Prevent negative multiplier
+// Simulate points per second
+function startAutoClicker() {
+    setInterval(() => {
+        totalPoints += pointsPerSecond;
+        updateDisplay();
+    }, 1000); // Gain points per second every 1 second
+}
+
+// Buy auto clicker upgrade (increases points per second)
+function buyAutoClickerUpgrade() {
+    if (totalPoints >= 1000) {
+        totalPoints -= 1000;
+        pointsPerSecond += 1;
+        updateDisplay();
+    } else {
+        alert("Not enough points for this upgrade!");
+    }
+}
+
+// Initialize the game
+function initGame() {
     updateDisplay();
-    alert(`Prestige successful! You now have a multiplier of x${prestigeMultiplier}`);
+    startAutoClicker();  // Start the auto clicker
 }
 
-function updateDisplay() {
-    clicksDisplay.textContent = `Clicks: ${clicks}`;
-    pointsDisplay.textContent = `Points: ${points}`;
-    multiplierDisplay.textContent = `Multiplier: x${multiplier}`;
-    pointUpgradeCostDisplay.textContent = `Point Upgrade Cost: ${pointUpgradeCost} points`;
-    prestigeCostDisplay.textContent = `Prestige Cost: 1000 clicks (multiplier: x${prestigeMultiplier})`;
-}
+document.getElementById("clickButton").addEventListener("click", addPoints);
+document.getElementById("prestigeButton").addEventListener("click", prestige);
+document.getElementById("upgradeButton").addEventListener("click", buyPointUpgrade);
+document.getElementById("autoClickerButton").addEventListener("click", buyAutoClickerUpgrade);
 
-// Initial update of the display
-updateDisplay();
+initGame();
 
 
