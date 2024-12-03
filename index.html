@@ -3,77 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infinite Clicker Game</title>
+    <title>Clicker Chronicles</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            background-color: #f0f0f0;
-            color: #333;
-        }
-        #game-container {
-            text-align: center;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 300px;
-        }
-        h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        .stats {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            background-color: #4CAF50;
-            color: white;
-            margin-top: 10px;
-            transition: background-color 0.3s;
-        }
-        button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-        button:hover:enabled {
-            background-color: #45a049;
-        }
-    </style>
 </head>
 <body>
     <div id="game-container">
-        <h1>Infinite Clicker Game</h1>
-        
-        <!-- Displays current clicks, CPC, and prestige multiplier -->
-        <div class="stats" id="clicks-display">Clicks: 0</div>
-        <div class="stats" id="cpc-display">CPC: 1</div>
-        <div class="stats" id="multiplier-display">Multiplier: 1</div>
-        
-        <!-- Button to simulate a click -->
-        <button id="click-btn">Click</button>
+        <h1>Clicker Chronicles</h1>
 
-        <!-- Upgrade section for increasing CPC -->
-        <div id="upgrade">
-            <button id="buy-cpc">Buy CPC Upgrade (Cost: 100)</button>
-            <div id="upgrade-cost">Next Upgrade Cost: 100</div>
+        <!-- Stats Section -->
+        <div class="stats">
+            <div class="stat-item">
+                <p id="clicks">Clicks: 0</p>
+                <p id="multiplier">Multiplier: x0</p>
+                <p id="points">Points: 0</p>
+            </div>
+            <div class="stat-item">
+                <p id="prestige-info">Prestige: x1 (0 Clicks Needed)</p>
+                <button id="prestige-btn" disabled>Prestige</button>
+            </div>
         </div>
 
-        <!-- Button for prestiging the game -->
-        <button id="prestige-btn" disabled>Prestige</button>
+        <!-- Upgrades Section -->
+        <div class="upgrades">
+            <div class="upgrade-card">
+                <h3>Upgrade: Point Multiplier</h3>
+                <p id="point-upgrade-cost">Cost: 500 Clicks</p>
+                <button id="buy-point-upgrade">Buy Point Upgrade</button>
+                <p id="point-upgrade-info">Click Multiplier: x1</p>
+            </div>
+
+            <div class="upgrade-card">
+                <h3>Upgrade: Auto Clicker</h3>
+                <p id="auto-clicker-cost">Cost: 1000 Clicks</p>
+                <button id="buy-auto-clicker">Buy Auto Clicker</button>
+            </div>
+        </div>
+
+        <!-- Click Button -->
+        <button id="click-btn">Click!</button>
     </div>
-    
-    <script src="script.js"></script>
+
+    <script src="game.js"></script>
 </body>
 </html>
+
 
