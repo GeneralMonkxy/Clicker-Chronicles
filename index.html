@@ -4,43 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clicker Chronicles</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="game-container">
+    <div id="gameContainer">
         <h1>Clicker Chronicles</h1>
 
-        <!-- Stats Section -->
-        <div class="stats">
-            <div class="stat-item">
-                <p id="clicks">Clicks: 0</p>
-                <p id="multiplier">Multiplier: x0</p>
-                <p id="points">Points: 0</p>
-            </div>
-            <div class="stat-item">
-                <p id="prestige-info">Prestige: x1 (0 Clicks Needed)</p>
-                <button id="prestige-btn" disabled>Prestige</button>
-            </div>
+        <div id="infoPanel">
+            <p id="totalPoints">Total Points: 0</p>
+            <p id="pointsPerClick">Points per Click: 1</p>
+            <p id="pointsPerSecond">Points per Second: 0</p>
+            <p id="prestigeMultiplier">Prestige Multiplier: 0x</p>
+            <p id="upgradeCost">Point Upgrade Cost: 100</p>
         </div>
 
-        <!-- Upgrades Section -->
-        <div class="upgrades">
-            <div class="upgrade-card">
-                <h3>Upgrade: Point Multiplier</h3>
-                <p id="point-upgrade-cost">Cost: 500 Clicks</p>
-                <button id="buy-point-upgrade">Buy Point Upgrade</button>
-                <p id="point-upgrade-info">Click Multiplier: x1</p>
-            </div>
-
-            <div class="upgrade-card">
-                <h3>Upgrade: Auto Clicker</h3>
-                <p id="auto-clicker-cost">Cost: 1000 Clicks</p>
-                <button id="buy-auto-clicker">Buy Auto Clicker</button>
-            </div>
+        <div id="actionPanel">
+            <button id="clickButton">Click</button>
+            <button id="prestigeButton">Prestige</button>
+            <button id="upgradeButton">Buy Point Upgrade</button>
+            <button id="autoClickerButton">Buy Auto Clicker</button>
         </div>
-
-        <!-- Click Button -->
-        <button id="click-btn">Click!</button>
     </div>
 
     <script src="game.js"></script>
