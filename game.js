@@ -1,79 +1,69 @@
-// Game state variables
 let clicks = 0;
 let points = 0;
-let multiplier = 0; // No multiplier at first
-let pointUpgradeMultiplier = 1;
-let autoClickerActive = false;
-let autoClickerInterval = null;
+let multiplier = 1;
+let pointUpgradeCost = 100;
+let prestigeClicks = 0;
+let prestigeMultiplier = 1;
+let pointUpgradeLevel = 0;
 
-// Cost for upgrades
-let pointUpgradeCost = 500;
-let autoClickerCost = 1000;
-
-// Track number of upgrades bought
-let pointUpgradesBought = 0;
-let autoClickerBought = 0;
-
-// HTML Elements
-const clickButton = document.getElementById("click-btn");
-const prestigeButton = document.getElementById("prestige-btn");
+const clickButton = document.getElementById("click-button");
+const prestigeButton = document.getElementById("prestige-button");
+const pointUpgradeButton = document.getElementById("point-upgrade-button");
 const clicksDisplay = document.getElementById("clicks");
 const pointsDisplay = document.getElementById("points");
 const multiplierDisplay = document.getElementById("multiplier");
-const pointUpgradeInfo = document.getElementById("point-upgrade-info");
 const pointUpgradeCostDisplay = document.getElementById("point-upgrade-cost");
-const buyPointUpgradeButton = document.getElementById("buy-point-upgrade");
-const buyAutoClickerButton = document.getElementById("buy-auto-clicker");
+const prestigeCostDisplay = document.getElementById("prestige-cost");
 
-// Update stats on screen
-function updateStats() {
+clickButton.addEventListener("click", () => {
+    // Increase clicks by 1 * multiplier
+    clicks += multiplier;
+    points += multiplier;
+    updateDisplay();
+});
+
+prestigeButton.addEventListener("click", () => {
+    if (clicks >= 1000) {
+        prestige();
+    } else {
+        alert("You need at least 1000 clicks to prestige!");
+    }
+});
+
+pointUpgradeButton.addEventListener("click", () => {
+    if (points >= pointUpgradeCost) {
+        points -= pointUpgradeCost;
+        pointUpgradeLevel++;
+        multiplier += 1; // Increase multiplier for each point upgrade
+        pointUpgradeCost = Math.floor(pointUpgradeCost * 1.5); // Increase cost for the next upgrade
+        updateDisplay();
+    } else {
+        alert("Not enough points for Point Upgrade!");
+    }
+});
+
+function prestige() {
+    prestigeClicks = clicks;
+    clicks = 0;
+    points = 0;
+    multiplier = 1;
+    pointUpgradeLevel = 0;
+    pointUpgradeCost = 100;
+    prestigeMultiplier = Math.floor(prestigeClicks / 1000);
+    if (prestigeMultiplier < 1) prestigeMultiplier = 1; // Prevent negative multiplier
+    updateDisplay();
+    alert(`Prestige successful! You now have a multiplier of x${prestigeMultiplier}`);
+}
+
+function updateDisplay() {
     clicksDisplay.textContent = `Clicks: ${clicks}`;
     pointsDisplay.textContent = `Points: ${points}`;
     multiplierDisplay.textContent = `Multiplier: x${multiplier}`;
-    pointUpgradeInfo.textContent = `Click Multiplier: x${pointUpgradeMultiplier}`;
-    pointUpgradeCostDisplay.textContent = `Cost: ${pointUpgradeCost} Clicks`;
-
-    // Update prestige button
-    prestigeButton.disabled = clicks < 1000;
-    prestigeButton.textContent = `Prestige (Requires 1000 Clicks)`;
+    pointUpgradeCostDisplay.textContent = `Point Upgrade Cost: ${pointUpgradeCost} points`;
+    prestigeCostDisplay.textContent = `Prestige Cost: 1000 clicks (multiplier: x${prestigeMultiplier})`;
 }
 
-// Handle clicking for points
-clickButton.addEventListener("click", () => {
-    clicks++;
-    points += pointUpgradeMultiplier; // Points increase by the point upgrade multiplier
-    updateStats();
-});
+// Initial update of the display
+updateDisplay();
 
-// Handle prestige logic
-prestigeButton.addEventListener("click", () => {
-    if (clicks >= 1000) {
-        const prestigeMultiplier = Math.floor(clicks / 1000);
-        multiplier = prestigeMultiplier; // Increase multiplier based on clicks
-        pointUpgradeMultiplier = 1; // Reset point multiplier on prestige
-        clicks = 0; // Reset clicks
-        points = 0; // Reset points
-        updateStats();
-    }
-});
-
-// Handle purchasing point upgrade
-buyPointUpgradeButton.addEventListener("click", () => {
-    if (clicks >= pointUpgradeCost) {
-        clicks -= pointUpgradeCost;
-        pointUpgradesBought++;
-        pointUpgradeMultiplier++; // Increase click multiplier
-        pointUpgradeCost = Math.floor(pointUpgradeCost * 1.5); // Increase cost for next upgrade
-        updateStats();
-    }
-});
-
-// Handle purchasing auto clicker
-buyAutoClickerButton.addEventListener("click", () => {
-    if (clicks >= autoClickerCost) {
-        clicks -= autoClickerCost;
-        autoClickerBought++;
-        if (!autoClickerActive) {
-            autoClickerInterval = setInterval(() => {
-                points += pointUpgradeMultiplier; // Auto-clicker adds points based
 
