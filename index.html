@@ -3,188 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clicker Chronicles</title>
+    <title>Infinite Clicker Game</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
             background-color: #f0f0f0;
-            color: #000;
-            transition: background-color 0.3s, color 0.3s;
+            color: #333;
         }
-        .dark-mode {
-            background-color: #333;
-            color: #fff;
+        #game-container {
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
         }
-        .button {
-            padding: 10px 20px;
-            font-size: 18px;
-            cursor: pointer;
-            margin: 10px;
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
         }
         .stats {
-            margin-top: 20px;
-        }
-        #modeToggle {
-            margin-top: 20px;
-            padding: 10px;
             font-size: 18px;
+            margin-bottom: 10px;
         }
-        .upgrade-button {
-            margin-top: 10px;
-            padding: 8px 15px;
+        button {
+            padding: 10px 20px;
             font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        button:hover:enabled {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
-    <h1>Clicker Chronicles</h1>
-    <button class="button" id="clickBtn">Click Me!</button>
-    <div class="stats">
-        <p id="clickCount">Clicks: 0</p>
-        <p id="prestigeCount">Prestiges: 0</p>
-        <p id="multiplier">Multiplier: x1</p>
-        <p id="cpc">CPC (Clicks Per Click): 1</p>
-        <p id="cps">CPS (Clicks Per Second): 0</p>
-        <p id="nextPrestige">Next Prestige at: 1000 clicks</p>
+    <div id="game-container">
+        <h1>Infinite Clicker Game</h1>
+        
+        <!-- Displays current clicks, CPC, and prestige multiplier -->
+        <div class="stats" id="clicks-display">Clicks: 0</div>
+        <div class="stats" id="cpc-display">CPC: 1</div>
+        <div class="stats" id="multiplier-display">Multiplier: 1</div>
+        
+        <!-- Button to simulate a click -->
+        <button id="click-btn">Click</button>
+
+        <!-- Upgrade section for increasing CPC -->
+        <div id="upgrade">
+            <button id="buy-cpc">Buy CPC Upgrade (Cost: 100)</button>
+            <div id="upgrade-cost">Next Upgrade Cost: 100</div>
+        </div>
+
+        <!-- Button for prestiging the game -->
+        <button id="prestige-btn" disabled>Prestige</button>
     </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
 
-    <h2>Upgrades</h2>
-    <div id="cpcUpgrades">
-        <p>Click Upgrades:</p>
-        <button class="upgrade-button" id="cpcUpgrade1">Upgrade CPC (Cost: 10 points)</button>
-        <button class="upgrade-button" id="cpcUpgrade2">Upgrade CPC (Cost: 50 points)</button>
-        <button class="upgrade-button" id="cpcUpgrade3">Upgrade CPC (Cost: 150 points)</button>
-        <button class="upgrade-button" id="cpcUpgrade4">Upgrade CPC (Cost: 300 points)</button>
-        <button class="upgrade-button" id="cpcUpgrade5">Upgrade CPC (Cost: 500 points)</button>
-    </div>
-    <div id="cpsUpgrades">
-        <p>Auto-Click Upgrades:</p>
-        <button class="upgrade-button" id="cpsUpgrade1">Upgrade CPS (Cost: 20 points)</button>
-        <button class="upgrade-button" id="cpsUpgrade2">Upgrade CPS (Cost: 100 points)</button>
-        <button class="upgrade-button" id="cpsUpgrade3">Upgrade CPS (Cost: 200 points)</button>
-        <button class="upgrade-button" id="cpsUpgrade4">Upgrade CPS (Cost: 400 points)</button>
-        <button class="upgrade-button" id="cpsUpgrade5">Upgrade CPS (Cost: 700 points)</button>
-    </div>
-
-    <button id="modeToggle" class="button">Switch to Dark Mode</button>
-
-    <script>
-        // Initial Game Variables
-        let clicks = 0;
-        let prestigeCount = 0;
-        let multiplier = 1;
-        let cpc = 1; // Clicks per click
-        let cps = 0; // Clicks per second
-        let prestigeThreshold = 1000;
-
-        // Upgrade States (Max of 200 purchases per upgrade)
-        let cpcUpgrades = [0, 0, 0, 0, 0]; // CPC upgrades
-        let cpsUpgrades = [0, 0, 0, 0, 0]; // CPS upgrades
-
-        // Mode Toggle
-        const modeToggle = document.getElementById('modeToggle');
-        const body = document.body;
-
-        // Check and apply mode from localStorage
-        if (localStorage.getItem('mode') === 'dark') {
-            body.classList.add('dark-mode');
-            modeToggle.textContent = 'Switch to Light Mode';
-        } else {
-            body.classList.remove('dark-mode');
-            modeToggle.textContent = 'Switch to Dark Mode';
-        }
-
-        // Toggle Dark/Light Mode
-        modeToggle.addEventListener('click', function() {
-            body.classList.toggle('dark-mode');
-            if (body.classList.contains('dark-mode')) {
-                modeToggle.textContent = 'Switch to Light Mode';
-                localStorage.setItem('mode', 'dark');
-            } else {
-                modeToggle.textContent = 'Switch to Dark Mode';
-                localStorage.setItem('mode', 'light');
-            }
-        });
-
-        // Game Mechanics
-        const clickBtn = document.getElementById('clickBtn');
-        const clickCountElem = document.getElementById('clickCount');
-        const prestigeCountElem = document.getElementById('prestigeCount');
-        const multiplierElem = document.getElementById('multiplier');
-        const cpcElem = document.getElementById('cpc');
-        const cpsElem = document.getElementById('cps');
-        const nextPrestigeElem = document.getElementById('nextPrestige');
-
-        // Click event
-        clickBtn.addEventListener('click', function() {
-            clicks += cpc;
-            updateStats();
-        });
-
-        // Auto Clicker (CPS)
-        setInterval(function() {
-            clicks += cps;
-            updateStats();
-        }, 1000);
-
-        // Prestige Logic
-        function prestige() {
-            if (clicks >= prestigeThreshold) {
-                clicks = 0;
-                prestigeCount++;
-                // Increase multiplier and reset upgrades
-                multiplier *= 2;
-                cpc = 1; // Reset CPC to 1
-                cps = 0; // Reset CPS to 0
-                cpcUpgrades = [0, 0, 0, 0, 0]; // Reset CPC upgrades
-                cpsUpgrades = [0, 0, 0, 0, 0]; // Reset CPS upgrades
-                prestigeThreshold *= 1.5; // Increase prestige threshold
-                updateStats();
-            }
-        }
-
-        // Handle CPC Upgrades
-        function upgradeCPC(upgradeIndex, cost) {
-            if (clicks >= cost && cpcUpgrades[upgradeIndex] < 200) {
-                clicks -= cost;
-                cpcUpgrades[upgradeIndex]++;
-                cpc *= 1.1; // Increase CPC by 10% for each upgrade
-                updateStats();
-            }
-        }
-
-        // Handle CPS Upgrades
-        function upgradeCPS(upgradeIndex, cost) {
-            if (clicks >= cost && cpsUpgrades[upgradeIndex] < 200) {
-                clicks -= cost;
-                cpsUpgrades[upgradeIndex]++;
-                cps += 1; // Increase CPS by 1 for each upgrade
-                updateStats();
-            }
-        }
-
-        // Update Stats Display
-        function updateStats() {
-            clickCountElem.textContent = `Clicks: ${clicks}`;
-            prestigeCountElem.textContent = `Prestiges: ${prestigeCount}`;
-            multiplierElem.textContent = `Multiplier: x${multiplier}`;
-            cpcElem.textContent = `CPC (Clicks Per Click): ${cpc.toFixed(1)}`;
-            cpsElem.textContent = `CPS (Clicks Per Second): ${cps}`;
-            nextPrestigeElem.textContent = `Next Prestige at: ${prestigeThreshold.toFixed(0)} clicks`;
-
-            if (clicks >= prestigeThreshold) {
-                clickBtn.textContent = 'Prestige!';
-            } else {
-                clickBtn.textContent = 'Click Me!';
-            }
-        }
-
-        // Button Listeners for Upgrades
-        document.getElementById('cpcUpgrade1').addEventListener('click', function() { upgradeCPC(0, 10); });
-        document.getElementById('cpcUpgrade2').addEventListener('click', function() { upgradeCPC(1, 50); });
-        document.getElementById('cpcUpgrade3').addEventListener('click', function() { upgradeCPC(2, 150); });
-        document.getElementById('cpcUpgrade4').addEventListener('click', function() { upgradeCPC(3, 300); });
-        document.getElementById('cpcUpgrade5').addEventListener('click', function() { upgradeCPC(4, 500); });
-
-        document
