@@ -1,113 +1,182 @@
-// Game State Variables
+// Game variables
 let totalPoints = 0;
 let pointsPerClick = 1;
 let pointsPerSecond = 0;
-let prestigeMultiplier = 0;
+let prestigeMultiplier = 1;
 let karma = 0;
 let pointBankBalance = 0;
-let pointBankInterestRate = 1;
-let pointUpgradeCost = 15;
-let autoClickerCost = 20;
-let pointUpgrades = 0;
-let autoClickers = 0;
-let depositAmount = 0;
-let donateAmount = 0;
+let pointBankInterestRate = 1; // Initial interest rate (1%)
+let pointUpgradeCost = 15; // Starting point upgrade cost
+let autoClickerCost = 20; // Starting auto-clicker cost
+let pointUpgradeCount = 0; // Number of upgrades
+let autoClickerCount = 0; // Number of auto-clickers
 
-// DOM Elements
+// UI Elements
 const totalPointsElem = document.getElementById("totalPoints");
 const pointsPerClickElem = document.getElementById("pointsPerClick");
 const pointsPerSecondElem = document.getElementById("pointsPerSecond");
 const prestigeMultiplierElem = document.getElementById("prestigeMultiplier");
-const karmaAmountElem = document.getElementById("karmaAmount");
+const karmaElem = document.getElementById("karmaAmount");
 const pointBankBalanceElem = document.getElementById("pointBankBalance");
-const upgradeCostElem = document.getElementById("upgradeCost");
+const pointUpgradeCostElem = document.getElementById("upgradeCost");
 const autoClickerCostElem = document.getElementById("autoClickerCost");
+
+const clickButton = document.getElementById("clickButton");
+const prestigeButton = document.getElementById("prestigeButton");
+const upgradeButton = document.getElementById("upgradeButton");
+const autoClickerButton = document.getElementById("autoClickerButton");
+const depositButton = document.getElementById("depositButton");
+const withdrawButton = document.getElementById("withdrawButton");
 const depositAmountInput = document.getElementById("depositAmount");
+const donateButton = document.getElementById("donateButton");
 const donateAmountInput = document.getElementById("donateAmount");
 
-// Game Functions
+const pointBankTab = document.getElementById("pointBankTab");
+const donationTab = document.getElementById("donationTab");
+const pointBankSection = document.getElementById("pointBank");
+const donationSection = document.getElementById("donationSection");
+
+const actionFeedback = document.getElementById("actionFeedback");
+const prestigeFeedback = document.getElementById("prestigeFeedback");
+const upgradeFeedback = document.getElementById("upgradeFeedback");
+const autoClickerFeedback = document.getElementById("autoClickerFeedback");
+
+// Update UI with game stats
 function updateUI() {
     totalPointsElem.textContent = `Total Points: ${totalPoints}`;
     pointsPerClickElem.textContent = `Points per Click: ${pointsPerClick}`;
     pointsPerSecondElem.textContent = `Points per Second: ${pointsPerSecond}`;
     prestigeMultiplierElem.textContent = `Prestige Multiplier: ${prestigeMultiplier}x`;
-    karmaAmountElem.textContent = `Karma: ${karma}`;
+    karmaElem.textContent = `Karma: ${karma}`;
     pointBankBalanceElem.textContent = `Point Bank Balance: ${pointBankBalance}`;
-    upgradeCostElem.textContent = `Point Upgrade Cost: ${pointUpgradeCost}`;
+    pointUpgradeCostElem.textContent = `Point Upgrade Cost: ${pointUpgradeCost}`;
     autoClickerCostElem.textContent = `Auto Clicker Cost: ${autoClickerCost}`;
 }
 
-// Actions
-document.getElementById("clickButton").addEventListener("click", () => {
+// Point Click Function
+clickButton.addEventListener("click", () => {
     totalPoints += pointsPerClick * prestigeMultiplier;
     updateUI();
 });
 
-document.getElementById("prestigeButton").addEventListener("click", () => {
+// Prestige Function
+prestigeButton.addEventListener("click", () => {
     if (totalPoints >= 1000) {
+        // Calculate multiplier based on points
         prestigeMultiplier = Math.floor(totalPoints / 1000);
-        totalPoints = 0;
-        updateUI();
+        totalPoints = 0; // Reset points after prestige
+        pointUpgradeCount = 0; // Reset point upgrades
+        autoClickerCount = 0; // Reset auto-clickers
+        pointUpgradeCost = 15; // Reset point upgrade cost
+        autoClickerCost = 20; // Reset auto-clicker cost
+        pointBankBalance = 0; // Reset point bank balance
+        pointBankInterestRate = 1; // Reset interest rate
+        karma += Math.floor(totalPoints / 1000000); // Gain karma for points
+        prestigeFeedback.textContent = `Prestige Successful! Multiplier: ${prestigeMultiplier}x`;
+    } else {
+        prestigeFeedback.textContent = `You need at least 1000 points to prestige.`;
     }
+    updateUI();
 });
 
-document.getElementById("upgradeButton").addEventListener("click", () => {
+// Buy Point Upgrade
+upgradeButton.addEventListener("click", () => {
     if (totalPoints >= pointUpgradeCost) {
         totalPoints -= pointUpgradeCost;
         pointsPerClick++;
-        pointUpgradeCost *= 2; // Doubling the cost
-        updateUI();
+        pointUpgradeCount++;
+        pointUpgradeCost *= 2; // Increase upgrade cost by x2
+        upgradeFeedback.textContent = `Point Upgrade Purchased! Points per Click: ${pointsPerClick}`;
+    } else {
+        upgradeFeedback.textContent = `Not enough points to buy point upgrade.`;
     }
+    updateUI();
 });
 
-document.getElementById("autoClickerButton").addEventListener("click", () => {
+// Buy Auto Clicker
+autoClickerButton.addEventListener("click", () => {
     if (totalPoints >= autoClickerCost) {
         totalPoints -= autoClickerCost;
-        autoClickers++;
-        autoClickerCost *= 2; // Doubling the cost
+        autoClickerCount++;
+        autoClickerCost *= 2; // Increase auto-clicker cost by x2
+        autoClickerFeedback.textContent = `Auto Clicker Purchased! Total Auto Clickers: ${autoClickerCount}`;
+    } else {
+        autoClickerFeedback.textContent = `Not enough points to buy auto clicker.`;
+    }
+    updateUI();
+});
+
+// Deposit Points into Point Bank
+depositButton.addEventListener("click", () => {
+    let depositAmount = parseInt(depositAmountInput.value);
+    if (depositAmount <= totalPoints && depositAmount > 0) {
+        totalPoints -= depositAmount;
+        pointBankBalance += depositAmount;
         updateUI();
+        depositAmountInput.value = ''; // Reset deposit input field
+    } else {
+        actionFeedback.textContent = "Invalid deposit amount.";
     }
 });
 
-// Point Bank System
-document.getElementById("depositButton").addEventListener("click", () => {
-    const amount = parseInt(depositAmountInput.value);
-    if (amount <= totalPoints) {
-        totalPoints -= amount;
-        pointBankBalance += amount;
+// Withdraw Points from Point Bank
+withdrawButton.addEventListener("click", () => {
+    let withdrawAmount = parseInt(depositAmountInput.value);
+    if (withdrawAmount <= pointBankBalance && withdrawAmount > 0) {
+        totalPoints += withdrawAmount;
+        pointBankBalance -= withdrawAmount;
         updateUI();
+        depositAmountInput.value = ''; // Reset deposit input field
+    } else {
+        actionFeedback.textContent = "Invalid withdraw amount.";
     }
 });
 
-document.getElementById("withdrawButton").addEventListener("click", () => {
-    const amount = parseInt(depositAmountInput.value);
-    if (amount <= pointBankBalance) {
-        totalPoints += amount;
-        pointBankBalance -= amount;
-        updateUI();
+// Donate Points to gain Karma
+donateButton.addEventListener("click", () => {
+    let donateAmount = parseInt(donateAmountInput.value);
+    if (donateAmount <= totalPoints && donateAmount >= 1000000) {
+        let karmaGained = Math.floor(donateAmount / 1000000);
+        karma += karmaGained;
+        totalPoints -= donateAmount;
+        actionFeedback.textContent = `You donated ${donateAmount} points and gained ${karmaGained} Karma.`;
+    } else {
+        actionFeedback.textContent = "You need to donate at least 1 million points.";
     }
+    donateAmountInput.value = ''; // Reset donation input field
+    updateUI();
 });
 
-// Donation System
-document.getElementById("donateButton").addEventListener("click", () => {
-    const amount = parseInt(donateAmountInput.value);
-    if (amount <= totalPoints) {
-        totalPoints -= amount;
-        karma += Math.floor(amount / 1000000); // For every 1 million points, get 1 karma
-        updateUI();
-    }
+// Toggle between different tabs (Point Bank, Donation)
+pointBankTab.addEventListener("click", () => {
+    pointBankSection.classList.remove("hidden");
+    donationSection.classList.add("hidden");
 });
 
-// Auto Clicker Logic
+donationTab.addEventListener("click", () => {
+    donationSection.classList.remove("hidden");
+    pointBankSection.classList.add("hidden");
+});
+
+// Update points per second based on auto-clickers
 setInterval(() => {
-    totalPoints += pointsPerSecond;
+    pointsPerSecond = autoClickerCount;
+    totalPoints += pointsPerSecond; // Add points per second to total points
     updateUI();
 }, 1000);
 
+// Update point bank balance with interest every 5 seconds
 setInterval(() => {
-    pointBankBalance += pointBankBalance * (pointBankInterestRate / 100);
+    if (pointBankBalance > 0) {
+        let interest = Math.floor(pointBankBalance * (pointBankInterestRate / 100));
+        pointBankBalance += interest;
+        pointBankInterestRate *= 1.01; // Increase interest rate slightly every 5 seconds
+    }
     updateUI();
-}, 500
+}, 5000);
+
+// Initial call to update UI
+updateUI();
 
 
 
