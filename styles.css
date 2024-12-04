@@ -1,211 +1,131 @@
-/* General styling for the entire body */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f1f1f1;
-    color: #333;
-    margin: 0;
-    padding: 0;
+    background-color: #000000;  /* Black background for better contrast */
+    color: #ffffff;  /* White text color for high contrast */
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    overflow: hidden;
+    height: 100vh;
+    margin: 0;
 }
 
-/* Main container for the game */
 #gameContainer {
-    width: 80%;
-    max-width: 1200px;
-    min-width: 600px;
-    background-color: #fff;
-    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    background-color: #222222;  /* Dark gray background for the game container */
     padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);  /* Slight shadow to make it pop */
+    text-align: center;
 }
 
-/* Title */
 h1 {
-    font-size: 2.5em;
-    color: #4CAF50;
-    text-align: center;
+    font-size: 2rem;
     margin-bottom: 20px;
-}
-
-/* Info panel where stats are displayed */
-#infoPanel {
-    text-align: center;
-    margin-bottom: 20px;
+    color: #ffffff;  /* White for the title */
 }
 
 #infoPanel p {
-    font-size: 1.2em;
-    margin: 5px;
+    margin: 5px 0;
+    font-size: 1rem;
+    color: #e0e0e0;  /* Lighter gray for the info text */
 }
 
-/* Action Panel for buttons (Click, Prestige, etc.) */
 #actionPanel {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
-#actionPanel button {
-    padding: 10px 20px;
-    font-size: 1.1em;
-    background-color: #4CAF50;
+button {
+    background-color: #4CAF50;  /* Green buttons for a vibrant contrast */
     color: white;
     border: none;
-    border-radius: 5px;
+    padding: 12px 24px;
+    margin: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease;
 }
 
-#actionPanel button:hover {
-    background-color: #45a049;
+button:hover {
+    background-color: #45a049;  /* Darker green on hover */
 }
 
-#actionPanel button:active {
-    background-color: #388e3c;
+.upgradeSection {
+    margin-top: 10px;
 }
 
-/* Tabs (Point Bank, Donation, etc.) */
 #tabs {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 #tabs button {
-    padding: 10px 20px;
-    font-size: 1.1em;
-    background-color: #2196F3;
+    background-color: #008CBA;  /* Blue for tabs */
     color: white;
     border: none;
-    border-radius: 5px;
+    padding: 12px;
+    margin: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    font-size: 1rem;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease;
 }
 
 #tabs button:hover {
-    background-color: #1976D2;
+    background-color: #006f82;  /* Darker blue on hover */
 }
 
-#tabs button:active {
-    background-color: #1565C0;
-}
-
-/* Hidden sections (Point Bank, Donation, etc.) */
 .hidden {
     display: none;
 }
 
-/* Point Bank section styling */
-#pointBank {
-    text-align: center;
+#pointBank, #donationSection {
     margin-top: 20px;
+    text-align: left;
 }
 
-#pointBank input {
-    padding: 5px;
-    font-size: 1em;
-    width: 100px;
-    margin-right: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+#pointBank input, #donateAmount {
+    width: 80%;
+    padding: 8px;
+    margin: 5px 0;
+    background-color: #333333;  /* Dark input fields */
+    border: 1px solid #555555;
+    color: #ffffff;  /* White text inside input */
 }
 
-#pointBank button {
-    margin-top: 10px;
+#pointBank button, #donateButton {
+    width: 80%;
+    padding: 12px;
+    background-color: #FFC107;  /* Yellow for donate buttons for visibility */
+    color: white;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 8px;
 }
 
-/* Donation section styling */
-#donationSection {
-    text-align: center;
-    margin-top: 20px;
+#pointBank button:hover, #donateButton:hover {
+    background-color: #e0a800;  /* Darker yellow on hover */
 }
 
-#donationSection input {
-    padding: 5px;
-    font-size: 1em;
-    width: 100px;
-    margin-right: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+#pointBankBalance, #karmaAmount {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #FFD700;  /* Gold for important info like balance and karma */
 }
 
-#donationSection button {
-    margin-top: 10px;
-}
-
-/* Feedback messages */
-#actionFeedback {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 1.2em;
-    color: #4CAF50;
+#upgradeCost, #autoClickerCost {
+    font-size: 1.1rem;
+    color: #FF6347;  /* Tomato color for upgrade costs to stand out */
 }
 
 #actionFeedback p {
-    margin: 5px 0;
-    color: #333;
-}
-
-/* Styling for the whole game (buttons, text, etc.) */
-#pointBank, #donationSection {
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    padding: 20px;
-    width: 100%;
-    max-width: 400px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-#tabs {
-    margin-bottom: 20px;
-}
-
-#tabs button {
-    font-size: 1em;
-    background-color: #4CAF50;
-    color: white;
-    border-radius: 5px;
-    padding: 10px 20px;
-    transition: background-color 0.3s;
-}
-
-#tabs button:hover {
-    background-color: #45a049;
-}
-
-#tabs button:active {
-    background-color: #388e3c;
-}
-
-/* Media query for small devices (like Kindle Paperwhite) */
-@media (max-width: 768px) {
-    #gameContainer {
-        width: 100%;
-        max-width: 600px;
-        min-width: 100%;
-    }
-
-    h1 {
-        font-size: 2em;
-    }
-
-    #infoPanel p, #actionPanel button {
-        font-size: 1em;
-    }
-
-    #pointBank input, #donationSection input {
-        width: 80px;
-    }
+    font-size: 1rem;
+    color: #d3d3d3;  /* Light gray for feedback messages */
 }
 
 
