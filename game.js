@@ -1,135 +1,77 @@
-// Initialize game variables
-let points = 10000;
-let pointsPerClick = 1;
-let pointsPerSecond = 0;
-let prestigeMultiplier = 1;
-let karma = 0;
+let points = localStorage.getItem('points') ? parseInt(localStorage.getItem('points')) : 0;
+let pointsPerClick = localStorage.getItem('pointsPerClick') ? parseInt(localStorage.getItem('pointsPerClick')) : 1;
+let karma = localStorage.getItem('karma') ? parseInt(localStorage.getItem('karma')) : 0;
+let helpers = localStorage.getItem('helpers') ? parseInt(localStorage.getItem('helpers')) : 0;
+let upgradeCost = 15; // Cost of point upgrade
 
-let upgradeCost = 15;
-let autoClickerCost = 20;
+// Buttons
+const clickButton = document.getElementById('clickButton');
+const donateButton = document.getElementById('donateButton');
+const buyHelperButton = document.getElementById('helperButton');
 
-let upgradeAmount = 0;
-let autoClickers = 0;
+// Stats Display
+const totalPoints = document.getElementById('totalPoints');
+const pointsPerClickDisplay = document.getElementById('pointsPerClick');
+const karmaAmount = document.getElementById('karmaAmount');
+const helperAmount = document.getElementById('helperAmount');
+const upgradeCostDisplay = document.getElementById('upgradeCost');
 
-let pointBankBalance = 0;
-let interestRate = 0.01; // 1% interest every 5 seconds
+// Functions
 
-// Elements
-const totalPoints = document.getElementById("totalPoints");
-const pointsPerClickDisplay = document.getElementById("pointsPerClick");
-const pointsPerSecondDisplay = document.getElementById("pointsPerSecond");
-const prestigeMultiplierDisplay = document.getElementById("prestigeMultiplier");
-const karmaAmount = document.getElementById("karmaAmount");
+// Clicking gives points
+clickButton.addEventListener('click', () => {
+    points += pointsPerClick;
+    updateStats();
+    saveGameData();
+});
 
-const upgradeCostDisplay = document.getElementById("upgradeCost");
-const autoClickerCostDisplay = document.getElementById("autoClickerCost");
-
-const upgradeButton = document.getElementById("upgradeButton");
-const autoClickerButton = document.getElementById("autoClickerButton");
-const clickButton = document.getElementById("clickButton");
-const prestigeButton = document.getElementById("prestigeButton");
-
-// Game loop to update points per second from auto-clickers
-setInterval(() => {
-    points += pointsPerSecond * prestigeMultiplier;
-    totalPoints.textContent = `Points: ${Math.floor(points)}`;
-}, 1000);
-
-// Click button function
-clickButton.onclick = () => {
-    points += pointsPerClick * prestigeMultiplier;
-    totalPoints.textContent = `Points: ${Math.floor(points)}`;
-};
-
-// Prestige button function
-prestigeButton.onclick = () => {
-    if (points >= 1000) {
-        points = 0;
-        karma += Math.floor(points / 1000000);
-        prestigeMultiplier *= 2;
-        totalPoints.textContent = `Points: ${points}`;
-        karmaAmount.textContent = `Karma: ${karma}`;
-        prestigeMultiplierDisplay.textContent = `Prestige Multiplier: ${prestigeMultiplier}x`;
+// Donate Points to Earn Karma
+donateButton.addEventListener('click', () => {
+    let donateAmount = parseInt(document.getElementById('donateAmount').value);
+    if (donateAmount >= 1000000 && donateAmount <= points) {
+        let donatedKarma = Math.floor(donateAmount / 1000000); // 1 million points = 1 karma
+        karma += donatedKarma;
+        points -= donateAmount;
+        updateStats();
+        saveGameData();
+    } else {
+        alert("Donate in multiples of 1 million points.");
     }
-};
+});
 
-// Upgrade button function
-upgradeButton.onclick = () => {
-    if (points >= upgradeCost) {
-        points -= upgradeCost;
-        pointsPerClick++;
-        upgradeAmount++;
-        upgradeCost *= 2; // Double the cost for the next upgrade
-        totalPoints.textContent = `Points: ${Math.floor(points)}`;
-        pointsPerClickDisplay.textContent = `Points per Click: ${pointsPerClick}`;
-        upgradeCostDisplay.textContent = `Point Upgrade Cost: ${upgradeCost}`;
+// Buy Helper with Karma
+buyHelperButton.addEventListener('click', () => {
+    if (karma >= 10) {  // Each helper costs 10 karma
+        karma -= 10;
+        helpers++;
+        pointsPerClick += 1; // Each helper increases points per click
+        updateStats();
+        saveGameData();
+    } else {
+        alert("Not enough karma for a helper.");
     }
-};
+});
 
-// Auto-clicker button function
-autoClickerButton.onclick = () => {
-    if (points >= autoClickerCost) {
-        points -= autoClickerCost;
-        autoClickers++;
-        pointsPerSecond += 1;
-        autoClickerCost *= 2; // Double the cost for the next auto-clicker
-        totalPoints.textContent = `Points: ${Math.floor(points)}`;
-        pointsPerSecondDisplay.textContent = `Points per Second: ${pointsPerSecond}`;
-        autoClickerCostDisplay.textContent = `Auto Clicker Cost: ${autoClickerCost}`;
-    }
-};
+// Update Display
+function updateStats() {
+    totalPoints.textContent = `Points: ${points}`;
+    pointsPerClickDisplay.textContent = `Points per Click: ${pointsPerClick}`;
+    karmaAmount.textContent = `Karma: ${karma}`;
+    helperAmount.textContent = `Helpers: ${helpers}`;
+    upgradeCostDisplay.textContent = `Point Upgrade Cost: ${upgradeCost}`;
+}
 
-// Tabs to switch between Point Bank and Donation
-const pointBankTab = document.getElementById("pointBankTab");
-const donationTab = document.getElementById("donationTab");
-const pointBank = document.getElementById("pointBank");
-const donationSection = document.getElementById("donationSection");
+// Save Game Data to localStorage
+function saveGameData() {
+    localStorage.setItem('points', points);
+    localStorage.setItem('pointsPerClick', pointsPerClick);
+    localStorage.setItem('karma', karma);
+    localStorage.setItem('helpers', helpers);
+}
 
-pointBankTab.onclick = () => {
-    pointBank.classList.remove("hidden");
-    donationSection.classList.add("hidden");
-};
+// Load initial stats on page load
+window.onload = updateStats;
 
-donationTab.onclick = () => {
-    donationSection.classList.remove("hidden");
-    pointBank.classList.add("hidden");
-};
-
-// Point Bank deposit/withdraw functions
-const depositButton = document.getElementById("depositButton");
-const withdrawButton = document.getElementById("withdrawButton");
-
-depositButton.onclick = () => {
-    const depositAmount = parseInt(document.getElementById("depositAmount").value);
-    if (depositAmount <= points) {
-        points -= depositAmount;
-        pointBankBalance += depositAmount;
-        totalPoints.textContent = `Points: ${Math.floor(points)}`;
-    }
-};
-
-withdrawButton.onclick = () => {
-    const withdrawAmount = parseInt(document.getElementById("depositAmount").value);
-    if (withdrawAmount <= pointBankBalance) {
-        points += withdrawAmount;
-        pointBankBalance -= withdrawAmount;
-        totalPoints.textContent = `Points: ${Math.floor(points)}`;
-    }
-};
-
-// Donation functionality
-const donateButton = document.getElementById("donateButton");
-const donateAmount = document.getElementById("donateAmount");
-
-donateButton.onclick = () => {
-    const donation = parseInt(donateAmount.value);
-    if (donation <= points) {
-        points -= donation;
-        karma += Math.floor(donation / 1000000);
-        karmaAmount.textContent = `Karma: ${karma}`;
-        totalPoints.textContent = `Points: ${Math.floor(points)}`;
-    }
-};
 
 
 
