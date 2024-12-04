@@ -8,46 +8,73 @@
 </head>
 <body>
     <div id="gameContainer">
+        <!-- Top Right Corner for Login / Signup -->
+        <div id="authPanel">
+            <button id="loginBtn">Login</button>
+            <button id="signupBtn">Sign Up</button>
+        </div>
+
+        <!-- Game Title -->
         <h1>Clicker Chronicles</h1>
 
-        <div id="infoPanel">
+        <!-- Stats Panel -->
+        <div id="statsPanel">
             <p id="totalPoints">Total Points: 0</p>
             <p id="pointsPerClick">Points per Click: 1</p>
             <p id="pointsPerSecond">Points per Second: 0</p>
-            <p id="prestigeMultiplier">Prestige Multiplier: 0x</p>
             <p id="karmaAmount">Karma: 0</p>
             <p id="pointBankBalance">Point Bank Balance: 0</p>
-            <p id="upgradeCost">Point Upgrade Cost: 100</p>
-            <p id="autoClickerCost">Auto Clicker Cost: 1000</p>
         </div>
 
-        <div id="actionPanel">
-            <button id="clickButton">Click</button>
-            <button id="prestigeButton">Prestige</button>
-            <button id="upgradeButton">Buy Point Upgrade</button>
-            <button id="autoClickerButton">Buy Auto Clicker</button>
-        </div>
-
-        <!-- Tabs -->
+        <!-- Tab Navigation -->
         <div id="tabs">
-            <button id="pointBankTab">Point Bank</button>
+            <button id="pointUpgradeTab">Point Upgrade</button>
+            <button id="autoClickerTab">Auto Clickers</button>
             <button id="donationTab">Donation</button>
+            <button id="pointBankTab">Point Bank</button>
         </div>
 
-        <!-- Point Bank -->
-        <div id="pointBank" class="hidden">
-            <p>Deposit Points: <input type="number" id="depositAmount" value="0" min="0"></p>
-            <button id="depositButton">Deposit</button>
-            <p>Interest: <span id="interestRate">1%</span> (Rises every 5 seconds)</p>
+        <!-- Point Upgrade Section -->
+        <div id="pointUpgradeSection" class="tabContent hidden">
+            <h2>Point Upgrade</h2>
+            <p>Upgrade Cost: <span id="upgradeCost">15</span></p>
+            <p>Current Upgrades: <span id="pointsUpgradesAmount">0</span></p>
+            <button id="buyPointUpgrade">Buy 1 Upgrade</button>
+            <button id="buy5PointUpgrades">Buy 5 Upgrades</button>
+            <button id="buy10PointUpgrades">Buy 10 Upgrades</button>
+            <button id="buyMaxPointUpgrades">Buy Max Upgrades</button>
         </div>
 
-        <!-- Donation -->
-        <div id="donationSection" class="hidden">
+        <!-- Auto Clicker Section -->
+        <div id="autoClickerSection" class="tabContent hidden">
+            <h2>Auto Clickers</h2>
+            <p>Auto Clicker Cost: <span id="autoClickerCost">20</span></p>
+            <p>Current Auto Clickers: <span id="autoClickersAmount">0</span></p>
+            <button id="buyAutoClicker1">Buy 1 Auto Clicker</button>
+            <button id="buyAutoClicker5">Buy 5 Auto Clickers</button>
+            <button id="buyAutoClicker10">Buy 10 Auto Clickers</button>
+            <button id="buyMaxAutoClicker">Buy Max Auto Clickers</button>
+        </div>
+
+        <!-- Donation Section -->
+        <div id="donationSection" class="tabContent hidden">
+            <h2>Donation</h2>
             <p>Donate Points: <input type="number" id="donateAmount" value="0" min="0"></p>
             <button id="donateButton">Donate</button>
             <p>For every 1 million points, you get 1 Karma.</p>
         </div>
 
+        <!-- Point Bank Section -->
+        <div id="pointBankSection" class="tabContent hidden">
+            <h2>Point Bank</h2>
+            <p>Deposit Points: <input type="number" id="depositAmount" value="0" min="0"></p>
+            <button id="depositButton">Deposit</button>
+            <p>Withdraw Points: <input type="number" id="withdrawAmount" value="0" min="0"></p>
+            <button id="withdrawButton">Withdraw</button>
+            <p>Interest: <span id="interestRate">1%</span> (Rises every 5 seconds)</p>
+        </div>
+
+        <!-- Feedback Section -->
         <div id="actionFeedback">
             <p id="prestigeFeedback"></p>
             <p id="upgradeFeedback"></p>
@@ -55,9 +82,22 @@
         </div>
     </div>
 
+    <!-- Login / Signup Form (Initially Hidden) -->
+    <div id="loginSignupModal" class="hidden">
+        <div id="modalContent">
+            <h2 id="modalTitle">Login</h2>
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button id="submitLogin">Login</button>
+            <button id="submitSignup">Sign Up</button>
+            <button id="closeModal">Close</button>
+        </div>
+    </div>
+
     <script src="game.js"></script>
 </body>
 </html>
+
 
 
 
