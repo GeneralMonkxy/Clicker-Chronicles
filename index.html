@@ -10,6 +10,7 @@
     <div id="gameContainer">
         <h1>Clicker Chronicles</h1>
 
+        <!-- Info Panel displaying game stats -->
         <div id="infoPanel">
             <p id="totalPoints">Total Points: 0</p>
             <p id="pointsPerClick">Points per Click: 1</p>
@@ -21,6 +22,7 @@
             <p id="autoClickerCost">Auto Clicker Cost: 20</p>
         </div>
 
+        <!-- Action Panel with buttons for player interaction -->
         <div id="actionPanel">
             <button id="clickButton">Click</button>
             <button id="prestigeButton">Prestige</button>
@@ -28,13 +30,13 @@
             <button id="autoClickerButton">Buy Auto Clicker</button>
         </div>
 
-        <!-- Tabs -->
+        <!-- Tabs for Point Bank and Donation pages -->
         <div id="tabs">
             <button id="pointBankTab">Point Bank</button>
             <button id="donationTab">Donation</button>
         </div>
 
-        <!-- Point Bank -->
+        <!-- Point Bank section -->
         <div id="pointBank" class="hidden">
             <p>Deposit Points: <input type="number" id="depositAmount" value="0" min="0"></p>
             <button id="depositButton">Deposit</button>
@@ -42,13 +44,14 @@
             <p>Interest: <span id="interestRate">1%</span> (Rises every 5 seconds)</p>
         </div>
 
-        <!-- Donation -->
+        <!-- Donation section -->
         <div id="donationSection" class="hidden">
             <p>Donate Points: <input type="number" id="donateAmount" value="0" min="0"></p>
             <button id="donateButton">Donate</button>
             <p>For every 1 million points, you get 1 Karma.</p>
         </div>
 
+        <!-- Feedback Panel -->
         <div id="actionFeedback">
             <p id="prestigeFeedback"></p>
             <p id="upgradeFeedback"></p>
@@ -59,6 +62,7 @@
     <script src="game.js"></script>
 </body>
 </html>
+
 
 
 
