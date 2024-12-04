@@ -1,95 +1,176 @@
-/* Body and General Styles */
+/* General Styles */
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-    text-align: center;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
     margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 #gameContainer {
-    width: 100%;
-    max-width: 500px;
-    margin: auto;
-    padding: 20px;
     background-color: #fff;
+    padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 1200px;
+    text-align: center;
 }
 
-/* Header */
 h1 {
-    color: #2a6f97;
-    font-size: 32px;
-}
-
-/* Info Panel */
-#infoPanel {
-    background-color: #e1e1e1;
-    padding: 15px;
-    border-radius: 8px;
+    font-size: 36px;
+    color: #333;
     margin-bottom: 20px;
 }
 
-#infoPanel p {
-    font-size: 16px;
-    margin: 5px 0;
+#authPanel {
+    position: absolute;
+    top: 20px;
+    right: 20px;
 }
 
-/* Buttons */
-button {
+#authPanel button {
     background-color: #4CAF50;
     color: white;
     border: none;
-    padding: 10px 20px;
-    font-size: 16px;
+    padding: 10px;
+    margin-left: 10px;
     cursor: pointer;
-    margin: 5px;
-    border-radius: 5px;
 }
 
-button:hover {
+#authPanel button:hover {
     background-color: #45a049;
 }
 
-/* Tabs */
 #tabs {
-    margin-top: 20px;
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-around;
 }
 
 #tabs button {
-    background-color: #007bff;
-    color: white;
     padding: 10px 20px;
     font-size: 16px;
-    margin: 5px;
+    cursor: pointer;
+    border: none;
+    background-color: #007BFF;
+    color: white;
 }
 
 #tabs button:hover {
     background-color: #0056b3;
 }
 
+#statsPanel {
+    margin: 20px 0;
+    font-size: 18px;
+}
+
+.tabContent {
+    display: none;
+}
+
 .hidden {
     display: none;
 }
 
-/* Action Feedback */
-#actionFeedback {
-    font-size: 16px;
-    margin-top: 20px;
+#actionPanel button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
 }
 
-#actionFeedback p {
-    color: #4CAF50;
-    font-weight: bold;
+#actionPanel button:hover {
+    background-color: #218838;
 }
 
-/* Input Fields */
-input[type="number"] {
+/* Point Bank Styles */
+#pointBankSection {
+    text-align: left;
+}
+
+#pointBankSection input {
     padding: 5px;
+    width: 200px;
+    margin-top: 10px;
+}
+
+#pointBankSection button {
+    padding: 10px 20px;
     font-size: 16px;
-    margin: 5px;
-    width: 100px;
+    background-color: #ffc107;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#pointBankSection button:hover {
+    background-color: #e0a800;
+}
+
+/* Modal Styles */
+#loginSignupModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+#modalContent {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+#modalTitle {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+#modalContent input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#modalContent button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+#modalContent button:hover {
+    background-color: #0056b3;
+}
+
+#closeModal {
+    background-color: #dc3545;
+}
+
+#closeModal:hover {
+    background-color: #c82333;
 }
 
