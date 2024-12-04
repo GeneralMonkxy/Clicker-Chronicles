@@ -1,123 +1,64 @@
-// Game variables
+// Global Variables
 let totalPoints = 0;
+let karma = 0;
+let pointBankBalance = 0;
 let pointsPerClick = 1;
 let pointsPerSecond = 0;
-let prestigeMultiplier = 0;
-let pointsUpgradeCost = 100;
-let pointUpgradeLevel = 1;
-let pointBankBalance = 0;
-let pointBankInterestRate = 1;  // Starts at 1%
-let karma = 0;
-let autoClickerCost = 1000;
+let interestRate = 1; // 1% interest every 5 seconds
+let upgrades = 0;
+let autoClickers = 0;
 
-// Point Bank
-let pointBankInterval = setInterval(updatePointBank, 5000);  // Update every 5 seconds
+// Pricing Variables
+let pointUpgradeCost = 15;  // Starting cost for Point Upgrade
+let autoClickerCost = 20;   // Starting cost for Auto Clicker
 
-// Functions
-function updateDisplay() {
-    document.getElementById("totalPoints").innerText = `Total Points: ${totalPoints}`;
-    document.getElementById("pointsPerClick").innerText = `Points per Click: ${pointsPerClick}`;
-    document.getElementById("pointsPerSecond").innerText = `Points per Second: ${pointsPerSecond}`;
-    document.getElementById("prestigeMultiplier").innerText = `Prestige Multiplier: ${prestigeMultiplier}x`;
-    document.getElementById("karmaAmount").innerText = `Karma: ${karma}`;
-    document.getElementById("pointBankBalance").innerText = `Point Bank Balance: ${pointBankBalance}`;
-    document.getElementById("upgradeCost").innerText = `Point Upgrade Cost: ${pointsUpgradeCost}`;
-    document.getElementById("autoClickerCost").innerText = `Auto Clicker Cost: ${autoClickerCost}`;
+// Get Elements
+const totalPointsEl = document.getElementById('totalPoints');
+const karmaEl = document.getElementById('karmaAmount');
+const pointBankBalanceEl = document.getElementById('pointBankBalance');
+const pointUpgradeCostEl = document.getElementById('upgradeCost');
+const autoClickerCostEl = document.getElementById('autoClickerCost');
+const depositAmountEl = document.getElementById('depositAmount');
+const withdrawAmountEl = document.getElementById('withdrawAmount');
+
+// Event Listeners
+document.getElementById('depositButton').addEventListener('click', depositPoints);
+document.getElementById('withdrawButton').addEventListener('click', withdrawPoints);
+
+// Update UI
+function updateUI() {
+    totalPointsEl.innerText = `Total Points: ${totalPoints}`;
+    karmaEl.innerText = `Karma: ${karma}`;
+    pointBankBalanceEl.innerText = `Point Bank Balance: ${pointBankBalance}`;
+    pointUpgradeCostEl.innerText = `Upgrade Cost: ${pointUpgradeCost}`;
+    autoClickerCostEl.innerText = `Auto Clicker Cost: ${autoClickerCost}`;
 }
 
-// Click button
-document.getElementById("clickButton").addEventListener("click", function() {
-    totalPoints += pointsPerClick;
-    updateDisplay();
-});
-
-// Prestige button
-document.getElementById("prestigeButton").addEventListener("click", function() {
-    prestige();
-});
-
-// Point Upgrade button
-document.getElementById("upgradeButton").addEventListener("click", function() {
-    buyPointUpgrade(1);
-});
-
-// Auto Clicker button
-document.getElementById("autoClickerButton").addEventListener("click", function() {
-    buyAutoClicker();
-});
-
-// Deposit points into the bank
-document.getElementById("depositButton").addEventListener("click", function() {
-    const depositAmount = parseInt(document.getElementById("depositAmount").value);
+// Deposit Points
+function depositPoints() {
+    let depositAmount = parseInt(depositAmountEl.value);
     if (depositAmount <= totalPoints && depositAmount > 0) {
         totalPoints -= depositAmount;
         pointBankBalance += depositAmount;
-        updateDisplay();
-    }
-});
-
-// Donate points to earn Karma
-document.getElementById("donateButton").addEventListener("click", function() {
-    const donateAmount = parseInt(document.getElementById("donateAmount").value);
-    if (donateAmount <= totalPoints && donateAmount > 0) {
-        totalPoints -= donateAmount;
-        karma += Math.floor(donateAmount / 1000000);  // 1 Karma per million points
-        updateDisplay();
-    }
-});
-
-// Show Point Bank tab
-document.getElementById("pointBankTab").addEventListener("click", function() {
-    document.getElementById("pointBank").classList.remove("hidden");
-    document.getElementById("donationSection").classList.add("hidden");
-});
-
-// Show Donation tab
-document.getElementById("donationTab").addEventListener("click", function() {
-    document.getElementById("donationSection").classList.remove("hidden");
-    document.getElementById("pointBank").classList.add("hidden");
-});
-
-// Point Bank Interest Update
-function updatePointBank() {
-    if (pointBankBalance > 0) {
-        let interestEarned = pointBankBalance * (pointBankInterestRate / 100);
-        pointBankBalance += interestEarned;
-        pointBankInterestRate += 0.5;  // Increase interest by 0.5% every 5 seconds
-    }
-    updateDisplay();
-}
-
-// Prestige functionality
-function prestige() {
-    prestigeMultiplier = Math.floor(totalPoints / 1000);
-    totalPoints = 0;
-    pointsPerClick = 1;
-    pointsPerSecond = 0;
-    updateDisplay();
-    document.getElementById("prestigeFeedback").innerText = "Prestige Completed ✔";
-    setTimeout(() => { document.getElementById("prestigeFeedback").innerText = ""; }, 3000);
-}
-
-// Point Upgrade
-function buyPointUpgrade(amount) {
-    let totalCost = pointsUpgradeCost * amount;
-    if (totalPoints >= totalCost) {
-        totalPoints -= totalCost;
-        pointsPerClick += amount;
-        updateDisplay();
-        document.getElementById("upgradeFeedback").innerText = `Upgraded ${amount} times ✔`;
-        setTimeout(() => { document.getElementById("upgradeFeedback").innerText = ""; }, 3000);
+        updateUI();
+    } else {
+        alert("Invalid deposit amount!");
     }
 }
 
-// Auto Clicker
-function buyAutoClicker() {
-    if (totalPoints >= autoClickerCost) {
-        totalPoints -= autoClickerCost;
-        pointsPerSecond += 1;  // Start adding 1 point per second with the auto clicker
-        updateDisplay();
+// Withdraw Points
+function withdrawPoints() {
+    let withdrawAmount = parseInt(withdrawAmountEl.value);
+    if (withdrawAmount <= pointBankBalance && withdrawAmount > 0) {
+        pointBankBalance -= withdrawAmount;
+        totalPoints += withdrawAmount;
+        updateUI();
+    } else {
+        alert("Invalid withdraw amount or insufficient funds in the bank!");
     }
 }
+
+// Call updateUI to set initial values on page load
+updateUI();
 
 
