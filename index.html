@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clicker Chronicles</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <div id="gameContainer">
         <h1>Clicker Chronicles</h1>
@@ -21,8 +23,8 @@
 
         <!-- Action Panel: Buttons -->
         <div id="actionPanel">
-            <button id="clickButton">Click</button>
-            <button id="prestigeButton">Prestige</button>
+            <button class="actionButton" id="clickButton">Click</button>
+            <button class="actionButton" id="prestigeButton">Prestige</button>
         </div>
 
         <!-- Upgrades Section -->
@@ -30,34 +32,34 @@
             <div class="upgradeItem">
                 <p>Point Upgrade</p>
                 <p>Cost: <span id="upgradeCost">15</span></p>
-                <button id="upgradeButton">Buy Point Upgrade</button>
+                <button class="upgradeButton" id="upgradeButton">Buy Point Upgrade</button>
             </div>
 
             <div class="upgradeItem">
                 <p>Auto Clicker</p>
                 <p>Cost: <span id="autoClickerCost">20</span></p>
-                <button id="autoClickerButton">Buy Auto Clicker</button>
+                <button class="upgradeButton" id="autoClickerButton">Buy Auto Clicker</button>
             </div>
         </div>
 
         <!-- Tabs for Additional Sections -->
         <div id="tabs">
-            <button id="pointBankTab">Point Bank</button>
-            <button id="donationTab">Donation</button>
+            <button class="tabButton" id="pointBankTab">Point Bank</button>
+            <button class="tabButton" id="donationTab">Donation</button>
         </div>
 
         <!-- Point Bank Section -->
         <div id="pointBank" class="hidden">
             <p>Deposit Points: <input type="number" id="depositAmount" value="0" min="0"></p>
-            <button id="depositButton">Deposit</button>
-            <button id="withdrawButton">Withdraw</button>
+            <button class="pointBankButton" id="depositButton">Deposit</button>
+            <button class="pointBankButton" id="withdrawButton">Withdraw</button>
             <p>Interest Rate: <span id="interestRate">1%</span> (Rises every 5 seconds)</p>
         </div>
 
         <!-- Donation Section -->
         <div id="donationSection" class="hidden">
             <p>Donate Points: <input type="number" id="donateAmount" value="0" min="0"></p>
-            <button id="donateButton">Donate</button>
+            <button class="donationButton" id="donateButton">Donate</button>
             <p>For every 1 million points donated, you earn 1 Karma.</p>
         </div>
 
@@ -71,13 +73,5 @@
 
     <script src="game.js"></script>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
