@@ -1,147 +1,149 @@
-/* General Reset */
+/* Basic reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
 }
 
-/* Background */
+/* Body and game container setup */
 body {
-    background-color: black;
-    color: white;
+    font-family: Arial, sans-serif;
+    background-color: #1b1b1b; /* Dark background to match Kindle Paperwhite contrast */
+    color: #fff; /* White text for contrast */
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+#gameContainer {
+    background-color: #333; /* Slightly lighter background for the game container */
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;
+    max-width: 700px; /* Ensuring it's not too wide for Kindle */
+    height: auto;
     overflow: hidden;
+}
+
+/* Header */
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #eaeaea;
+}
+
+/* Stats section */
+#statsSection {
+    margin-bottom: 20px;
+    font-size: 18px;
     text-align: center;
 }
 
-h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-/* Game Container */
-#gameContainer {
-    width: 100%;
-    max-width: 350px;
-    padding: 20px;
-    border: 2px solid #fff;
-    border-radius: 8px;
-}
-
-/* Stats Section */
 #statsSection p {
-    font-size: 16px;
     margin: 5px 0;
 }
 
-/* Action Panel (Buttons) */
+/* Action Panel (Click and Prestige buttons) */
 #actionPanel {
-    margin-top: 20px;
-}
-
-#actionPanel button {
-    padding: 12px;
-    font-size: 16px;
-    width: 100%;
-    background-color: #2C8C99;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-#actionPanel button:hover {
-    background-color: #217F87;
-}
-
-/* Upgrades Section */
-#upgradesSection {
-    margin-top: 20px;
-}
-
-.upgradeItem {
+    display: flex;
+    justify-content: space-evenly;
     margin-bottom: 20px;
 }
 
-#upgradesSection p {
-    font-size: 14px;
-}
-
-#upgradesSection button {
-    padding: 10px;
-    font-size: 14px;
-    background-color: #6D8A8A;
-    color: white;
+button {
+    background-color: #008CBA;
+    color: #fff;
     border: none;
-    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 16px;
     cursor: pointer;
+    border-radius: 5px;
     transition: background-color 0.3s;
-    width: 100%;
 }
 
-#upgradesSection button:hover {
-    background-color: #4E6F6F;
+button:hover {
+    background-color: #005f73;
 }
 
-/* Tabs Section */
+button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+}
+
+/* Upgrade Section */
+#upgradesSection {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.upgradeItem {
+    margin: 10px 0;
+}
+
+.upgradeItem p {
+    margin-bottom: 5px;
+}
+
+/* Tabs for Additional Sections */
 #tabs {
     display: flex;
     justify-content: space-evenly;
-    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 #tabs button {
+    background-color: #666;
+    color: #fff;
     padding: 10px;
-    font-size: 14px;
-    background-color: #6D8A8A;
-    color: white;
-    border: none;
-    border-radius: 8px;
+    font-size: 16px;
     cursor: pointer;
+    border-radius: 5px;
     transition: background-color 0.3s;
 }
 
 #tabs button:hover {
-    background-color: #4E6F6F;
+    background-color: #444;
 }
 
-/* Hidden Sections */
+#tabs button:disabled {
+    background-color: #999;
+}
+
+/* Sections that are hidden by default */
 .hidden {
     display: none;
 }
 
-#pointBank, #donationSection {
+/* Donation Section */
+#donationSection {
+    text-align: center;
     margin-top: 20px;
 }
 
-#pointBank input, #donationSection input {
-    padding: 5px;
+#donateAmount {
+    width: 80%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    color: #fff;
+    background-color: #444;
     font-size: 16px;
-    border-radius: 8px;
-    width: 100%;
-    margin-bottom: 10px;
 }
 
-/* Action Feedback Section */
+/* Action feedback section */
 #actionFeedback {
     margin-top: 20px;
-    color: #FFB6C1;
-    font-size: 14px;
+    text-align: center;
 }
 
-/* Styling for Input Fields */
-input[type="number"] {
-    font-size: 16px;
-    padding: 5px;
-    width: 100%;
-    margin-bottom: 10px;
-    border-radius: 8px;
+/* Add some spacing between the elements */
+#actionPanel button,
+#upgradesSection button,
+#donationSection button {
+    margin-top: 10px;
 }
 
 
